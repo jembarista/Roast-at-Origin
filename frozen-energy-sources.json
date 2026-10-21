@@ -1,0 +1,101 @@
+{
+  "accessDate": "2026-10-21",
+  "sources": {
+    "fitzgerald2011": {
+      "doi": "10.1016/j.enpol.2010.12.015",
+      "url": "https://www.physics.otago.ac.nz/eman/documents/fitzgerald_et_al_2011_refn_pers_rev_ver.pdf",
+      "location": "Abstract; manuscript section 3.2/Table 2, p.12, PDF index 11",
+      "type": "published overall modelling assumption; distinct from monitored samples",
+      "coffeeApplicability": "not validated"
+    },
+    "cheaitou2012": {
+      "doi": "10.1080/03088839.2012.728726",
+      "url": "https://www.researchgate.net/publication/263480595_Liner_shipping_service_optimisation_with_reefer_containers_capacity_an_application_to_northern_Europe-South_America_trade",
+      "location": "Section 2.2.3.2, p.594, author-uploaded full text",
+      "type": "engineering-model input, not measured voyage average",
+      "coffeeApplicability": "not validated"
+    }
+  },
+  "defaults": [
+    {
+      "id": "feSize",
+      "value": 20,
+      "unit": "feet",
+      "basis": "single illustrative container",
+      "source": "illustrative",
+      "confidence": "scenario only"
+    },
+    {
+      "id": "feTemperature",
+      "value": -18,
+      "unit": "degrees C",
+      "basis": "descriptive frozen setpoint; no inferred power relationship",
+      "source": "scenario assumption",
+      "confidence": "scenario only"
+    },
+    {
+      "id": "feDays",
+      "value": 30,
+      "unit": "powered days",
+      "basis": "loaded voyage; not a route-specific duration",
+      "source": "illustrative",
+      "confidence": "low"
+    },
+    {
+      "id": "fePower",
+      "value": 2.7,
+      "unit": "kW/TEU",
+      "basis": "overall modelling assumption",
+      "source": "fitzgerald2011",
+      "confidence": "published assumption; low transferability to specific coffee shipments"
+    },
+    {
+      "id": "researchFrozenPower",
+      "value": 5.2,
+      "unit": "kW/TEU",
+      "basis": "modelled frozen products at -18 degrees C",
+      "source": "cheaitou2012",
+      "confidence": "published engineering input; low transferability"
+    },
+    {
+      "id": "freshProductsContext",
+      "value": 7.2,
+      "unit": "kW/TEU",
+      "basis": "modelled fresh products at +2 degrees C; not used in calculations",
+      "source": "cheaitou2012",
+      "confidence": "published engineering input; not a calibration pair"
+    },
+    {
+      "id": "feAllocation",
+      "value": 100,
+      "unit": "percent",
+      "basis": "illustrative full container; independent of main freight allocation",
+      "source": "illustrative",
+      "confidence": "scenario only"
+    },
+    {
+      "id": "feFactor",
+      "value": null,
+      "unit": "kg CO2e/kWh",
+      "basis": "onboard generation WTW; source required",
+      "source": "unknown",
+      "confidence": "unavailable"
+    },
+    {
+      "id": "sensitivityPercent",
+      "value": 60,
+      "unit": "percent either side",
+      "basis": "illustrative symmetric variation; not confidence limits",
+      "source": "fitzgerald2011 approximate variation; extension to user power is a scenario assumption",
+      "confidence": "sensitivity only"
+    },
+    {
+      "id": "teuFor40Foot",
+      "value": 2,
+      "unit": "TEU",
+      "basis": "container equivalence; provisional proportional electrical scaling",
+      "source": "scenario scaling assumption",
+      "confidence": "low for actual electrical demand"
+    }
+  ]
+}

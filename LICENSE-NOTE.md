@@ -1,0 +1,1 @@
+Project content prepared for Barista Hustle. No public software licence has been chosen. Before publishing code under an open-source licence, have the project owner select one. Linked external works retain their own copyright and terms.

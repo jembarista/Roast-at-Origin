@@ -1,0 +1,35 @@
+const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
+const {nodes,context,run,set}=require('./regression.cjs');
+for(const node of nodes.values()){
+ node.listeners={};node.addEventListener=function(type,fn){(this.listeners[type]??=[]).push(fn)};
+ node.replaceChildren=function(){this.children=[]};
+}
+nodes.get('feMethod').options=[{value:'glec'},{value:'components',disabled:true}];
+const input=(id,value)=>{set(id,value);for(const fn of nodes.get(id).listeners.input||[])fn()};
+const click=id=>{for(const fn of nodes.get(id).listeners.click||[])fn()};
+run("el('reset').onclick()");set('journeyChoice','roasted');set('originMode','frozen');run('update()');
+const total=context.window.last.origin.total;
+run(fs.readFileSync(path.join(__dirname,'../frozen-energy.js'),'utf8'));
+run(fs.readFileSync(path.join(__dirname,'../frozen-energy-ui.js'),'utf8'));
+assert.match(nodes.get('feTotal').textContent,/1,944 kWh/);
+assert.equal(nodes.get('feEmissions').textContent,'Unavailable');assert.equal(nodes.get('feMethod').options[1].disabled,true);
+input('fePower',5.2);run('update()');assert.equal(context.window.last.origin.total,total);
+assert.match(nodes.get('feTotal').textContent,/3,744 kWh/);
+input('feFactor',.7);assert.equal(nodes.get('feEmissions').textContent,'Unavailable','A number without source/boundary is not a defensible WTW factor');
+input('feFactorSource','Ship generator WTW record, table 2');input('feElectricityBoundary','WTW');
+assert.match(nodes.get('feEmissions').textContent,/2,620.8 kg/);assert.equal(context.window.last.origin.total,total);
+input('fePropulsion',.05);input('feDistance',10000);input('fePropulsionSource','Carrier report, propulsion only, row 1');input('fePropulsionBoundary','WTW');
+nodes.get('feExcluded').checked=true;nodes.get('feCompatible').checked=true;input('feCompatible','');
+assert.equal(nodes.get('feMethod').options[1].disabled,false);
+input('feMethod','components');assert.match(nodes.get('feTransport').textContent,/Method B research total: 3,120.8/);
+assert.equal(context.window.last.origin.total,total,'Component sandbox must not write its emissions into main freight');
+input('feFactorSource','');assert.equal(nodes.get('feMethod').options[1].disabled,true);assert.match(nodes.get('feTotal').textContent,/3,744/);assert.match(nodes.get('feTransport').textContent,/Method B total unavailable/);assert.equal(nodes.get('feEmissions').textContent,'Unavailable');
+input('feMethod','glec');assert.match(nodes.get('feTotal').textContent,/3,744/);assert.equal(nodes.get('feEmissions').textContent,'Unavailable');
+click('feFitzgerald');assert.match(nodes.get('feTotal').textContent,/1,944/);
+input('feSize',40);assert.match(nodes.get('feTotal').textContent,/3,888/);
+input('feAllocation',50);assert.match(nodes.get('feAllocated').textContent,/1,944/);
+input('feTemperature',-25);assert.match(nodes.get('feAllocated').textContent,/1,944/);
+input('feAllocation',101);assert.equal(nodes.get('feTotal').textContent,'—');assert.equal(nodes.get('feCsv').disabled,true);
+run('update()');assert.ok(context.window.last,'Invalid optional energy controls must not block main carbon results');
+assert.ok(context.window.frozenExportRows().some(row=>row[0]==='Frozen energy result status'&&row[1].startsWith('Unavailable')));
+console.log('PASS frozen energy UI: missing factors, source gates, no double counting, presets, scaling, invalidation and exports');
