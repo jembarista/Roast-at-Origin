@@ -28,21 +28,21 @@
     const origin = choice === 'roasted';
     $('econAfterCard').classList.toggle('current-journey', choice === 'green');
     $('econBeforeCard').classList.toggle('current-journey', origin);
-    $('econSelectedLabel').textContent = !choice ? 'Choose your journey above' : `Your choice · ${origin ? 'Roast at Origin' : 'Roast at Destination'}`;
+    $('econSelectedLabel').textContent = !choice ? 'Choose where to roast' : `${origin ? 'Roast at Origin' : 'Roast at Destination'}`;
     if (!choice || !result) {
       $('econSelectedRetained').textContent = '—';
-      $('econSelectedStory').textContent = !choice ? 'Choose when to roast to see its financial result.' : 'Add your costs or load the illustrative example to see this journey’s financial result.';
+      $('econSelectedStory').textContent = !choice ? 'Choose where to roast.' : 'Add costs or try an example.';
       return;
     }
     const selected = result[origin ? 'origin' : 'traditional'];
     $('econSelectedRetained').textContent = `${money(selected.retainedPerKg)} / kg stays at origin`;
-    $('econSelectedStory').textContent = `For this shipment: ${money(selected.retained)} estimated retained at origin, from ${money(selected.total)} in total buyer spending. ${selected.share === null ? 'No spending share is available.' : `${number(selected.share * 100)}% of the buyer’s spending stays at origin under the entered assumptions.`} The comparison below keeps both journeys visible. Transport and packing buttons do not set financial prices; edit those costs in the ledger.`;
+    $('econSelectedStory').textContent = `${money(selected.retained)} stays at origin from ${money(selected.total)} spent on this shipment.${selected.share === null ? '' : ` Estimated share: ${number(selected.share * 100)}%.`}`;
   }
   function clear(message) {
     result = null;
     for (const id of ['econAfter', 'econBefore', 'econGrowers', 'econWages', 'econHours']) $(id).textContent = '—';
-    $('econAfterShare').textContent = $('econBeforeShare').textContent = 'Per kg of finished coffee';
-    $('econDifference').textContent = 'Add a cost breakdown to follow the money.';
+    $('econAfterShare').textContent = $('econBeforeShare').textContent = 'Per kg roasted';
+    $('econDifference').textContent = 'Add costs to compare.';
     $('econStory').textContent = '';
     $('econTotals').replaceChildren();
     $('econStatus').textContent = message;
@@ -50,25 +50,25 @@
   function refreshMoney() {
     const enteredMass = Number($('mass').value), enteredLoss = Number($('loss').value);
     $('econCoffeeAmount').textContent = $('mass').value.trim() !== '' && Number.isFinite(enteredMass) && enteredMass > 0
-      ? `You’re buying ${number(enteredMass)} kg of green coffee.` + ($('loss').value.trim() !== '' && Number.isFinite(enteredLoss) && enteredLoss >= 0 && enteredLoss < 100 ? ` That gives ${number(enteredMass * (1 - enteredLoss / 100))} kg of roasted coffee at the entered ${number(enteredLoss)}% roasting loss. Both journeys use this same amount.` : '')
-      : 'Enter your coffee amount above to compare the same shipment.';
+      ? `${number(enteredMass)} kg green` + ($('loss').value.trim() !== '' && Number.isFinite(enteredLoss) && enteredLoss >= 0 && enteredLoss < 100 ? ` → ${number(enteredMass * (1 - enteredLoss / 100))} kg roasted.` : '.')
+      : 'Enter a coffee amount.';
 
     $('econBasis').textContent = `${basis}. Same buyer handover point, same finished output. Excludes retail, brewing and consumption taxes. Currency changes relabel amounts; they do not convert them.`;
     const hasData = categories.some(c => ['traditional', 'origin'].some(p => $(fieldId(p, c.id, 'rate')).value.trim() !== ''));
-    if (!hasData) { clear('Add your own figures or try the clearly labelled example. No business-specific financial claims are loaded.'); return; }
+    if (!hasData) { clear('Add your costs or try the invented example.'); return; }
     try {
       result = compareValue(getInput());
       const a = result.traditional, b = result.origin;
-      $('econStatus').textContent = basis.includes('example') ? 'ILLUSTRATIVE EXAMPLE · invented prices and retention shares, not GGET figures or country averages.' : 'User-entered scenario · retention shares and ownership need supporting evidence.';
+      $('econStatus').textContent = basis.includes('example') ? 'ILLUSTRATIVE EXAMPLE · invented figures, not company data.' : 'Your assumptions · verify prices and retained shares.';
       $('econAfter').textContent = `${money(a.retainedPerKg)} / kg`;
       $('econBefore').textContent = `${money(b.retainedPerKg)} / kg`;
-      $('econAfterShare').textContent = a.share === null ? 'No spending entered' : `${number(a.share * 100)}% of buyer spending stays at origin`;
-      $('econBeforeShare').textContent = b.share === null ? 'No spending entered' : `${number(b.share * 100)}% of buyer spending stays at origin`;
+      $('econAfterShare').textContent = a.share === null ? 'No spending entered' : `${number(a.share * 100)}% of spending`;
+      $('econBeforeShare').textContent = b.share === null ? 'No spending entered' : `${number(b.share * 100)}% of spending`;
       const delta = result.extraRetained;
-      $('econDifference').textContent = `${money(Math.abs(delta))} ${delta >= 0 ? 'more' : 'less'} estimated to stay at origin for this shipment.`;
+      $('econDifference').textContent = `${money(Math.abs(delta))} ${delta >= 0 ? 'more' : 'less'} estimated to stay at origin.`;
       const spend = result.extraSpend;
       const ratio = result.retainedPerExtraDollar;
-      $('econStory').textContent = `Roasting before shipping ${spend >= 0 ? 'costs the buyer' : 'saves the buyer'} ${money(Math.abs(spend))} ${spend >= 0 ? 'more' : ''} across ${number(result.roasted)} kg of finished coffee. ${ratio === null ? 'There is no positive extra buyer spend to divide by.' : `For each extra ${$('econCurrency').value} 1 spent, estimated retained spending changes by ${money(ratio)}. This ratio can exceed 1 when spending shifts between recipients.`} ${Math.abs(result.extraGrower) < .005 ? 'Grower receipts are unchanged in this scenario.' : 'The grower-payment change is shown separately below.'}`;
+      $('econStory').textContent = `Buyer cost: ${money(Math.abs(spend))} ${spend >= 0 ? 'more' : 'less'} for origin roasting. ${Math.abs(result.extraGrower) < .005 ? 'Grower payments unchanged.' : 'Grower-payment change below.'}`;
       $('econGrowers').textContent = `${result.extraGrower >= 0 ? '+' : '−'}${money(Math.abs(result.extraGrower))}`;
       $('econWages').textContent = `${result.extraWages >= 0 ? '+' : '−'}${money(Math.abs(result.extraWages))}`;
       $('econHours').textContent = result.additionalWageHours === null ? 'Wage rate needed' : `${result.additionalWageHours >= 0 ? '+' : '−'}${number(Math.abs(result.additionalWageHours))} hours`;

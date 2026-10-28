@@ -37,3 +37,9 @@ Excluded: coffee cultivation, fertiliser and land use, cherry processing and mil
 ## Emissions accounting caution
 
 Distinguish TTW (tank-to-wheel)/WTW (well-to-wheel), CO₂ versus CO₂e, GWP horizon, and aviation non-CO₂ treatment across sources. Scope-equivalent factors needed. Do not treat GLEC *methodology* as evidence that a particular hard-coded factor is correct.
+
+## Packaging controls clarified — 28 October 2026
+
+Destination roasting always ships green coffee in green sacks. Its package selector describes finished roasted coffee packed after arrival/roasting, not its international shipping packaging. Origin roasting packs the finished roasted coffee before international shipment; 300 g is a saleable retail bag. Bulk options describe wholesale roasted coffee in both pathways. Green sacks are no longer offered as a finished-coffee packaging option. The user-reported GGET-style preset uses 300 g final retail bags in both pathways for a matched retail format; actual company packing is not independently verified here. Other research presets retain their previous 1 kg finished-bag default. No freight or packaging equations were changed.
+
+Destination final packaging is now limited to 1 kg bags or Retail bags. Bulk remains an option only for origin-roasted shipments in the current UI. “Retail bags” uses the 300 g illustrative preset, rounded from the 10.5 oz size listed at https://gget.com/collections/current-menu/products/prism-roasted-at-origin (checked 28 October 2026). This verifies the listed bag size, not the package material mass, fill efficiency, shipment configuration or air-freight use.

@@ -1,0 +1,25 @@
+const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm'),path=require('node:path');
+const classes=new Set(),nodes=new Map();
+for(const id of ['journeyChoice','backToSetup','greenJourney','roastedJourney','resultsChoice','journeyHint','resultView','roastChoiceHeading','mass'])nodes.set(id,{value:'',listeners:{},hidden:false,focus(){this.focused=true},addEventListener(type,fn){(this.listeners[type]??=[]).push(fn)},dispatchEvent(event){for(const fn of this.listeners[event.type]||[])fn(event)}});
+const get=id=>nodes.get(id);get('mass').value='1000';
+vm.runInNewContext(fs.readFileSync(path.join(__dirname,'../journey-choice.js'),'utf8'),{document:{getElementById:get,body:{classList:{toggle(name,on){on?classes.add(name):classes.delete(name)}}}},window:{scrollTo(){}},requestAnimationFrame:fn=>fn(),Event:class{constructor(type){this.type=type}}});
+assert.equal(classes.has('roast-focus'),false);assert.equal(get('backToSetup').hidden,true);
+get('journeyChoice').value='green';get('journeyChoice').dispatchEvent({type:'change'});
+assert.ok(classes.has('roast-focus'));assert.equal(get('greenJourney').hidden,false);assert.equal(get('roastedJourney').hidden,true);assert.equal(get('resultsChoice').hidden,false);assert.ok(get('roastChoiceHeading').focused);
+get('journeyChoice').value='roasted';get('journeyChoice').dispatchEvent({type:'change'});assert.equal(get('greenJourney').hidden,true);assert.equal(get('roastedJourney').hidden,false);
+get('backToSetup').dispatchEvent({type:'click'});assert.equal(classes.has('roast-focus'),false);assert.equal(get('journeyChoice').value,'');assert.equal(get('resultsChoice').hidden,true);assert.equal(get('mass').value,'1000');assert.ok(get('mass').focused);
+console.log('PASS roast selection focuses setup, switches options and returns without losing quantity');
+// The pressed control must begin at its old screen position and never fade out.
+const motion=[];
+const animate=(frames,timing)=>{motion.push({frames,timing});return {cancel(){}}};
+const panel={animate};
+const selectedButton={getBoundingClientRect(){return {left:20,top:classes.has('roast-focus')?20:480}}};
+get('roastChoiceHeading').closest=()=>panel;get('resultsChoice').animate=animate;
+for(const node of nodes.values())node.listeners={};
+vm.runInNewContext(fs.readFileSync(path.join(__dirname,'../journey-choice.js'),'utf8'),{document:{getElementById:get,querySelector:()=>selectedButton,body:{classList:{toggle(name,on){on?classes.add(name):classes.delete(name)}}}},window:{scrollTo(){},matchMedia:()=>({matches:false})},Event:class{constructor(type){this.type=type}}});
+get('journeyChoice').value='green';get('journeyChoice').dispatchEvent({type:'change'});
+assert.equal(motion.length,2);
+assert.equal(motion[0].frames[0].transform,'translate(0px, 460px)');
+assert.equal(motion[0].frames.length,2);assert.ok(motion[0].frames.every(frame=>frame.opacity===1));
+assert.equal(motion[0].timing.duration,1350);assert.equal(motion[0].timing.delay,undefined);
+console.log('PASS continuous 1.35-second slide from the actual button position, without pause or fade');

@@ -5,7 +5,7 @@
   for(const role of ['from','to']){
     const select=get(role),query=get('city'+role),button=get('city'+role+'Search'),status=get('city'+role+'Status'),matches=get('city'+role+'Matches');
     let generation=0,controller=null;
-    function describe(){query.value=select.selectedOptions[0].textContent;status.textContent='Using: '+select.selectedOptions[0].textContent;}
+    function describe(){query.value=select.selectedOptions[0].textContent;status.textContent='';}
     function choose(place){
       let label=[place.name,place.admin1,place.country||place.country_code].filter((x,i,array)=>x&&array.indexOf(x)===i).join(', ');
       const coords=[place.latitude,place.longitude];
@@ -35,7 +35,7 @@
         }
         if(version!==generation)return;
         if(!results.length){status.textContent='No match found. Try the city name plus its country, or use a preset. Your current route has not changed.';return;}
-        status.textContent='Choose the right city. Your current route stays in place until you select a match.';
+        status.textContent='Choose a match to update the route.';
         for(const place of results){
           const match=document.createElement('button');match.type='button';
           match.textContent=[place.name,place.admin1,place.country||place.country_code].filter(Boolean).join(', ');
@@ -45,7 +45,7 @@
       finally{clearTimeout(timer);if(version===generation)button.disabled=false;}
     }
     query.addEventListener('keydown',event=>{if(event.key==='Enter'){event.preventDefault();search();}});
-    query.addEventListener('input',()=>{generation++;controller?.abort();button.disabled=false;matches.replaceChildren();status.textContent='Press Find city, then choose a match to update your route.';});
+    query.addEventListener('input',()=>{generation++;controller?.abort();button.disabled=false;matches.replaceChildren();status.textContent='Press Find, then choose a match.';});
     button.addEventListener('click',search);
     select.addEventListener('input',()=>{generation++;controller?.abort();button.disabled=false;matches.replaceChildren();describe();});
     describe();

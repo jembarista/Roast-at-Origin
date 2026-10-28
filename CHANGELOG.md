@@ -66,3 +66,13 @@ Validation: eleven pure frozen-energy tests and UI integration checks pass, alon
 ## Custom city search
 
 Added explicit city searches for both endpoints using Open-Meteo/GeoNames, with disambiguation buttons and offline preset fallback. A typed query does not change the route until a match is confirmed. Confirmed coordinates update the existing distance proxies. Added caching, coordinate validation, stale-response/timeout handling, source attribution and export provenance. Mocked integration checks cover matches, routes, errors and exports; live browser/API QA remains outstanding.
+
+## Clarify shipping versus finished packaging
+
+Distinguished green-coffee freight sacks from finished retail/wholesale bags in labels and CSV exports. Removed green sacks from the finished destination pack selector. The GGET-style preset now compares 300 g retail formats in both pathways, based on user-reported context. Added explicit checks for the preset and retained regression checks that destination retail packaging does not change green freight, while origin finished packaging does. Freight equations are unchanged.
+
+## Compact console release — 28 October 2026
+
+Shortened main copy; moved research controls and sources below results; added laptop preview. Roasting and result choices now slide continuously to the top in focused screens, with back controls and reduced-motion support. Updated header title and painted BH ship asset. Clarified final-retail versus green-shipping packaging; default GGET-style retail format is 300 g on both sides, destination choices exclude Bulk, and shorter Reefer/Retail bags labels are used. Main freight equations and research limitations are preserved.
+
+Validation: nine check suites pass, including quantity/packaging correctness, economic UI, result/roast transitions, city search, freight guidance and frozen-energy accounting. HTML structure and local asset references checked. Browser visual QA remains outstanding.

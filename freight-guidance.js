@@ -17,7 +17,7 @@
     const other = window.last[which === 'origin' ? 'traditional' : 'origin'];
     const otherLabel = which === 'origin' ? 'roasting at destination' : 'roasting at origin';
     const heading = document.createElement('h3');heading.textContent = ['sea','reefer'].some(mode => pathway(which,{mode}).total < current.total) ? 'Try a greener option?' : 'Compare another way to travel?';container.appendChild(heading);
-    const intro = document.createElement('p');intro.textContent = 'Keep the roasting location. Try changing how the coffee travels.';container.appendChild(intro);
+    const intro = document.createElement('p');intro.textContent = 'Same roast. Different transport.';container.appendChild(intro);
     const options = document.createElement('div');options.className = 'freight-options';container.appendChild(options);
     for (const mode of ['sea', 'reefer']) {
       const alternative = pathway(which, { mode });
@@ -41,7 +41,7 @@
     const selected = get('journeyChoice').value;
     if (selected && emissionsSeen && get('resultView').value === 'carbon' && !get('carbonPanel').hidden) fill(get('carbonFreightGuide'), selected === 'roasted' ? 'origin' : 'trad');
     else get('carbonFreightGuide').replaceChildren();
-    get('carbonModeSummary').textContent = `Current comparison: roast at destination → ${modeLabels[get('tradMode').value]}; roast at origin → ${modeLabels[get('originMode').value]}.`;
+    get('carbonModeSummary').textContent = `Destination → ${modeLabels[get('tradMode').value]}; origin → ${modeLabels[get('originMode').value]}.`;
   };
   get('journeyChoice').addEventListener('change', window.refreshFreightGuidance);
   get('resultView').addEventListener('change', window.refreshFreightGuidance);

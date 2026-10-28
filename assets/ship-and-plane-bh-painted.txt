@@ -1,0 +1,5 @@
+Generated with the built-in image_gen tool; original asset preserved.
+
+Final prompt:
+Use case: compositing. Edit target: image 1, the photograph of a red ship bow facing a passenger plane. Supporting logo reference: image 2, the white outlined interlocking Barista Hustle BH monogram on a black sticker. Paint ONLY that white BH monogram (no black disc, no sticker, no peel) onto the front-facing side of the red ship's bow. Place it prominently on the clear red steel between the round hawsehole and the bow tip, approximately centred at x=610,y=365 in the original 1536x1024 image, about 150px tall, above/right of the anchor. Follow the hull's perspective and curved surface; allow existing steel seams and subtle worn paint texture to show naturally. Preserve the exact interlocking BH letterform from the reference. Keep the entire composition, camera, ship geometry, plane, sky, sea, colours and framing unchanged. No other text, marks, objects or layout elements. Keep the original 3:2 image dimensions/aspect.
+

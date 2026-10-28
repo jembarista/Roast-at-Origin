@@ -14,7 +14,7 @@
     try { localStorage.setItem('coffeeExaminedSound',enabled ? 'on' : 'off'); } catch {}
     label();
   });
-  document.querySelector('.hero').insertAdjacentElement('afterend',toggle);
+  document.getElementById('resultResources').appendChild(toggle);
   label();
   async function clickSound() {
     if (!enabled) return;

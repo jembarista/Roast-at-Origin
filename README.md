@@ -1,4 +1,4 @@
-# Coffee Examined — Roasting at Origin
+# Ocean vs Air Freight · Roasting Location Calculator
 
 A Barista Hustle educational prototype comparing roasting at origin with roasting at destination. Explore retained spending, grower receipts, paid-work equivalents and emissions for the same finished roasted-coffee output.
 
@@ -46,3 +46,11 @@ A separate expandable research panel estimates refrigeration electricity and opt
 ## Custom cities
 
 Type a city at either end, press Find city (or Enter), then choose the correct match. Open-Meteo/GeoNames geocoding needs internet. Presets remain available offline. Choosing a match updates coordinates and the existing approximate distances; these are not port/airport itineraries. Coordinates and provenance accompany CSV exports. Review commercial API licensing before deployment. Run `node tests/city-search.cjs`.
+
+## Current interface — 28 October 2026
+
+Setup asks for coffee quantity, cities and roasting location. Choosing a location slides the console into a focused shipping/packing screen; choosing Money or Carbon slides the shared examine panel to the top. Both transitions respect reduced-motion preferences. Research settings, frozen energy, Sources and the sound toggle appear below results. Phone and laptop layout previews are available in `phone-preview.html` and `laptop-preview.html`.
+
+Green coffee ships in sacks for destination roasting. The final destination pack choices are 1 kg or Retail bags; Bulk is retained for origin roasting. Retail bags use an illustrative 300 g model, rounded from GGET's listed 10.5 oz size (approximately 298 g). The GGET-style preset matches 300 g final packaging in both pathways. Actual packaging mass and stowage assumptions still require evidence.
+
+Run `node tests/journey-focus.cjs` in addition to the checks above for the console transitions. The header uses an AI-edited photo with a white BH mark painted on the hull; the original asset is preserved. See its adjacent `.txt` file for the edit prompt.
