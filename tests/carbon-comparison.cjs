@@ -1,0 +1,24 @@
+const assert=require('node:assert/strict');
+const {run,set,nodes,context}=require('./regression.cjs');
+const close=(a,b)=>assert.ok(Math.abs(a-b)<1e-7,`${a} != ${b}`);
+run("el('reset').onclick()");set('journeyChoice','green');set('tradMode','air');set('originMode','sea');run('update()');
+let c=context.window.last.carbonComparison;
+close(c.traditional.total,4418.05);close(c.origin.total,4001.36875);close(c.percent,10.413467891455873);
+assert.match(nodes.get('comparison').textContent,/10.4% higher/);assert.match(nodes.get('comparisonText').textContent,/Your destination roast/);
+assert.equal(c.origin.mode,'air');assert.equal(context.window.last.origin.mode,'sea');assert.equal(nodes.get('originMode').value,'sea');
+assert.equal(nodes.get('originTotal').textContent,run('fmt(window.last.carbonComparison.origin.total)'));
+set('journeyChoice','roasted');set('originMode','air');set('tradMode','sea');run('update()');c=context.window.last.carbonComparison;
+close(c.percent,-9.431338486436303);assert.match(nodes.get('comparison').textContent,/9.4% lower/);assert.match(nodes.get('comparisonText').textContent,/Your origin roast/);assert.equal(c.traditional.mode,'air');assert.equal(nodes.get('tradMode').value,'sea');
+set('journeyChoice','green');set('tradPack','retail1');set('originPack','retail03');run('update()');c=context.window.last.carbonComparison;
+close(c.origin.total,run("pathway('origin',{mode:'sea',pack:'retail1'}).total"));assert.equal(c.pack,'retail1');assert.equal(nodes.get('originPack').value,'retail03');
+set('journeyChoice','roasted');set('originMode','frozen');run('update()');assert.equal(context.window.last.carbonComparison.traditional.mode,'frozen');assert.match(nodes.get('status').textContent,/FROZEN WARNING/);
+set('journeyChoice','green');set('tradMode','air');for(const id of ['airFactor','roadFactor','packFactor','originRoast'])set(id,0);set('tradRoast',.42);run('update()');
+assert.match(nodes.get('comparison').textContent,/comparison total is zero/);assert.ok(!/NaN|Infinity/.test(nodes.get('comparison').textContent));
+console.log('PASS selected carbon result: percentage direction, matched freight/pack, chart reconciliation, preserved settings, frozen warning and zero denominator');
+
+run("el('reset').onclick()");set('journeyChoice','green');set('tradMode','air');set('originMode','sea');run('update()');
+let csv='';context.Blob=class extends Blob{constructor(parts,options){super(parts,options);csv=parts.join('')}};
+run("el('csv').onclick()");
+assert.ok(csv.includes('"international mode","air","air"'));assert.ok(csv.includes('"actual editable scenario modes","air","sea"'));
+assert.ok(csv.includes('"comparison basis","traditional"'));assert.ok(csv.includes(String(context.window.last.carbonComparison.origin.total)));
+console.log('PASS carbon CSV exports the displayed matched comparison plus original scenario settings');

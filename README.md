@@ -4,11 +4,11 @@ A Barista Hustle educational prototype comparing roasting at origin with roastin
 
 ## Run
 
-Open `index.html` in a browser. Keep its JavaScript files alongside it. No build step, dependencies, API keys or network connection required. Alternatively run `python3 -m http.server 8000` in this folder. Static hosts such as GitHub Pages can serve this directory.
+Open `index.html` in a browser. Keep its JavaScript files alongside it. No build step, package installation or API keys required. Calculations and presets work offline; custom city search needs internet. Alternatively run `python3 -m http.server 8000` in this folder. Static hosts such as GitHub Pages can serve this directory.
 
 ## Flow
 
-Enter green-coffee quantity and origin/destination. Choose **Roast After the Trip** or **Roast at Origin**, then configure transport and packaging in the opening card. Choose **Follow the Money** or **Check the Carbon Footprint** to open results. Research settings and the financial ledger expose detailed assumptions. CSV exports accompany results.
+Enter green-coffee quantity and origin/destination. Choose **Roast at Destination** or **Roast at Origin**, then configure transport and packaging in the opening card. Choose **Follow the Money** or **Carbon Footprint** to open results. Research settings and the financial ledger expose detailed assumptions. CSV exports accompany results.
 
 Initial load and reset compare green by sea versus origin-roasted by air: a user-reported GGET-style scenario, not independently verified company logistics. Air selections offer calculated dry-sea and refrigerated-sea alternatives. Roasting location and transport are separate choices; no fixed percentage saving is assumed.
 
@@ -45,12 +45,22 @@ A separate expandable research panel estimates refrigeration electricity and opt
 
 ## Custom cities
 
-Type a city at either end, press Find city (or Enter), then choose the correct match. Open-Meteo/GeoNames geocoding needs internet. Presets remain available offline. Choosing a match updates coordinates and the existing approximate distances; these are not port/airport itineraries. Coordinates and provenance accompany CSV exports. Review commercial API licensing before deployment. Run `node tests/city-search.cjs`.
+Type a city at either end, press Find (or Enter), then choose the correct match. Open-Meteo/GeoNames geocoding needs internet. Presets remain available offline. Choosing a match updates coordinates and the existing approximate distances; these are not port/airport itineraries. Coordinates and provenance accompany CSV exports. Review commercial API licensing before deployment. Run `node tests/city-search.cjs`.
 
-## Current interface — 28 October 2026
+## Current interface — 29 October 2026
 
 Setup asks for coffee quantity, cities and roasting location. Choosing a location slides the console into a focused shipping/packing screen; choosing Money or Carbon slides the shared examine panel to the top. Both transitions respect reduced-motion preferences. Research settings, frozen energy, Sources and the sound toggle appear below results. Phone and laptop layout previews are available in `phone-preview.html` and `laptop-preview.html`.
 
 Green coffee ships in sacks for destination roasting. The final destination pack choices are 1 kg or Retail bags; Bulk is retained for origin roasting. Retail bags use an illustrative 300 g model, rounded from GGET's listed 10.5 oz size (approximately 298 g). The GGET-style preset matches 300 g final packaging in both pathways. Actual packaging mass and stowage assumptions still require evidence.
 
 Run `node tests/journey-focus.cjs` in addition to the checks above for the console transitions. The header uses an AI-edited photo with a white BH mark painted on the hull; the original asset is preserved. See its adjacent `.txt` file for the edit prompt.
+
+## Carbon result: selected journey first
+
+The headline and charts compare your selected roasting location against the opposite location using the same selected freight mode and finished packaging. Saved controls for the other journey are not overwritten. The percentage uses the opposite-location total as its denominator; a zero denominator produces an absolute difference instead. CSV exports include the displayed matched comparison and the separately saved settings. See the 29 October update in `docs/METHODOLOGY.md`.
+
+Run `node tests/carbon-comparison.cjs` to check comparison direction, matching, chart totals and CSV reconciliation. The default controls still start with green coffee by sea and origin-roasted coffee by air; once you select a roasting location, its freight and final pack define the matched headline comparison.
+
+## Download snapshot — 29 October 2026
+
+This package contains the current local app, including changes made after the last GitHub push. It includes HTML, JavaScript, image assets, research notes and tests. Git history and machine-specific metadata are excluded. Extract the entire folder before opening `index.html`; use `phone-preview.html` or `laptop-preview.html` for device-width layouts. Keep all asset paths intact.

@@ -1,0 +1,119 @@
+/* Diffui Image 4 material study, translated into live controls.
+   Visible caps are small; their existing labelled buttons retain large hit areas. */
+body main.wrap .button-choices {
+ --bh-metal:repeating-linear-gradient(0deg,#f9f9f918 0 .5px,#12121208 .5px 1px,transparent 1px 3px),linear-gradient(108deg,#929592 0%,#c8cac7 18%,#e0e1de 33%,#afb2af 60%,#d3d5d1 82%,#a4a7a3);
+ background-image:var(--bh-metal);border-color:#747975;
+ box-shadow:inset 0 1px 0 #f9f9f9cc,inset 1px 0 0 #f9f9f966,inset 0 -1px 0 #555a56,0 2px 0 #474c48,0 5px 8px #12121250;
+}
+body main.wrap .button-choices button[data-value],
+body main.wrap .journey-choice .journey-card>button[data-value],
+body main.wrap .lens-buttons .result-card>button[data-value] {
+ --bh-lens:#174c34;--bh-light:#65df91;--bh-core:#c0f4ce;
+ color:#242824!important;text-shadow:0 1px 0 #f9f9f9c9,0 -1px 0 #12121244;
+ background:transparent;border-color:transparent;box-shadow:none;
+ min-width:44px;min-height:65px;overflow:visible;
+ transition:background-color 140ms ease;
+}
+body main.wrap .button-choices button[data-value="roasted"]{--bh-lens:#4c2c17;--bh-light:#ba8a57;--bh-core:#ead2a6}
+body main.wrap .button-choices button[data-value="money"],
+body main.wrap .button-choices button[data-value="carbon"]{--bh-lens:#8f1918;--bh-light:#ef5347;--bh-core:#f8b3a2}
+body main.wrap .button-choices button[data-value="air"]{--bh-lens:#1c4956;--bh-light:#72d9e5;--bh-core:#c9edf0}
+body main.wrap .button-choices button[data-value="reefer"],
+body main.wrap .button-choices button[data-value="frozen"]{--bh-lens:#233b4b;--bh-light:#8dbdd6;--bh-core:#d6e7ef}
+/* The cap face, polished retaining ring, dark mount and contact shadow. */
+body main.wrap .button-choices button[data-value]::before,
+body main.wrap .journey-choice .journey-card>button[data-value]::before,
+body main.wrap .lens-buttons .result-card>button[data-value]::before {
+ content:"";box-sizing:border-box;width:28px;height:28px;flex-shrink:0;
+ border-radius:50%;border:1px solid #1e2521;
+ background:radial-gradient(ellipse 65% 35% at 34% 19%,#f9f9f970,transparent 80%),radial-gradient(circle at 46% 41%,var(--bh-lens),#15201b 87%);
+ box-shadow:inset 0 1px 1px #f9f9f9a0,inset 0 -3px 4px #121212a6,0 0 0 1px #d1d5d0,0 0 0 2px #606b65,0 0 0 3px #d5d9d4,0 0 0 4px #303a34,0 0 0 5px #929b94,0 0 0 6px #19231d,0 3px 0 6px #19231d,0 6px 5px 6px #12121266;
+ filter:none;transform:translateY(0);transition:transform 110ms ease,box-shadow 140ms ease,filter 140ms ease;
+}
+body main.wrap .button-choices button[data-value][aria-pressed="true"]::before,
+body main.wrap .journey-choice .journey-card>button[data-value][aria-pressed="true"]::before,
+body main.wrap .lens-buttons .result-card>button[data-value][aria-pressed="true"]::before {
+ background:radial-gradient(ellipse 60% 25% at 35% 18%,#f9f9f9aa,transparent 85%),radial-gradient(circle at 47% 44%,var(--bh-core) 0%,var(--bh-light) 29%,var(--bh-lens) 76%,#16251b 100%);
+ box-shadow:inset 0 1px 2px #f9f9f9bb,inset 0 -2px 4px #12121277,0 0 0 1px #e0e4dd,0 0 0 2px #626d65,0 0 0 3px #d5dad3,0 0 0 4px #303a34,0 0 0 5px #929b94,0 0 0 6px #19231d,0 2px 0 6px #19231d,0 4px 4px 6px #12121266;
+ transform:translateY(1px);filter:none;
+}
+@media(hover:hover){body main.wrap .button-choices button[data-value]:not(:disabled):hover::before{filter:brightness(1.12)}}
+body main.wrap .button-choices button[data-value]:focus-visible,
+body main.wrap .journey-choice .journey-card>button[data-value]:focus-visible,
+body main.wrap .lens-buttons .result-card>button[data-value]:focus-visible{outline:2px solid #176da0;outline-offset:2px;border-radius:5px}
+body main.wrap .button-choices button[data-value]:disabled{opacity:.5;cursor:not-allowed}
+body main.wrap .button-choices button[data-value]:disabled::before{filter:grayscale(1);transform:none}
+/* Actual cap travel is independent of the persistent selected lamp. */
+body main.wrap .button-choices button[data-value]:not(:disabled):active::before,
+body main.wrap .journey-choice .journey-card>button[data-value]:not(:disabled):active::before,
+body main.wrap .lens-buttons .result-card>button[data-value]:not(:disabled):active::before{transform:translateY(4px);filter:brightness(.94)}
+/* Larger mushroom cap retains its three reset arrows, centre recess and collar. */
+body main.wrap .lens-buttons .result-card>button[data-value="carbon"]::before,
+body main.wrap .lens-buttons .result-card>button[data-value="carbon"][aria-pressed="true"]::before {
+ width:48px;height:43px;border-radius:46% 46% 38% 38%;border:1px solid #9e201b;
+ background-image:url('assets/roaster-reset-arrows.svg'),radial-gradient(ellipse 65% 24% at 35% 15%,#f9f9f978,transparent 82%),radial-gradient(circle at 50% 53%,#b72821 0 30%,#921e19 33%,#d73c31 36%,#c82c22 64%,#8f1918 100%);
+ background-size:100% 100%;background-repeat:no-repeat;
+ box-shadow:inset 0 2px 1px #f58b71,inset 0 -3px 2px #7d1a16,0 4px 0 1px #8d1d17,0 7px 0 1px #621d17,0 8px 0 5px #edc92e,0 8px 0 9px #c6a21a,0 9px 0 10px #706022,0 12px 5px 8px #12121266;
+ transform:translateY(0);filter:none;
+}
+body main.wrap .lens-buttons .result-card>button[data-value="carbon"][aria-pressed="true"]::before {
+ background-image:url('assets/roaster-reset-arrows.svg'),radial-gradient(ellipse 65% 24% at 35% 15%,#f9f9f9a8,transparent 82%),radial-gradient(circle at 50% 53%,#e63f32 0 30%,#b32921 33%,#f1664e 36%,#d73325 64%,#a9221a 100%);
+ transform:translateY(2px);
+ box-shadow:inset 0 2px 1px #f4a18b,inset 0 -2px 2px #7d1a16,0 2px 0 1px #8d1d17,0 4px 0 1px #621d17,0 5px 0 5px #edc92e,0 5px 0 9px #c6a21a,0 6px 0 10px #706022,0 8px 4px 8px #12121255;
+}
+@media(prefers-reduced-motion:reduce){body main.wrap .button-choices button[data-value]::before{transition:none}}
+
+/* Diffui Prompt material pass: fine brushed alloy, recessed labels and fixings.
+   Code-native surface assets remain local and repeat without scaling the layout. */
+body main.wrap .button-choices {
+ background-image:url('assets/plate-fixing.svg'),url('assets/plate-fixing.svg'),url('assets/plate-fixing.svg'),url('assets/plate-fixing.svg'),url('assets/brushed-alloy.svg'),linear-gradient(104deg,#a2a5a2 0%,#d0d2cf 16%,#b9bcb8 30%,#e2e3df 42%,#b0b3af 65%,#d1d3ce 84%,#969b95);
+ background-position:5px 5px,calc(100% - 5px) 5px,5px calc(100% - 5px),calc(100% - 5px) calc(100% - 5px),0 0,0 0;
+ background-size:12px 12px,12px 12px,12px 12px,12px 12px,256px 256px,100% 100%;
+ background-repeat:no-repeat,no-repeat,no-repeat,no-repeat,repeat,no-repeat;
+ border:1px solid #737a72;border-radius:9px;
+ box-shadow:inset 0 1px 0 #f9f9f9d9,inset 1px 0 0 #f9f9f970,inset 0 -1px 0 #575e54,0 2px 0 #41473e,0 5px 9px #12121266;
+}
+/* Secondary rows use the same stock, without a second set of corner fixings. */
+body main.wrap .button-choices:not(.journey-card-grid):not(.result-card-grid){
+ background-image:url('assets/brushed-alloy.svg'),linear-gradient(104deg,#adb1ab,#d8dad4 37%,#aeb3aa 68%,#c5c9c0);
+ background-position:0 0;background-size:256px 256px,100% 100%;background-repeat:repeat,no-repeat;
+ box-shadow:inset 0 1px 0 #f9f9f9a0,inset 0 -1px 0 #747d6e,0 1px 2px #12121233;
+}
+body main.wrap .button-choices button[data-value],
+body main.wrap .journey-choice .journey-card>button[data-value],
+body main.wrap .lens-buttons .result-card>button[data-value]{
+ color:#20271f!important;font-weight:600;letter-spacing:.055em;
+ text-shadow:0 1px 0 #f9f9f9d9,0 -1px 1px #12121280;
+}
+/* Persistent on-state and cap travel are separate: a fast tap still shows travel. */
+body main.wrap .button-choices button[data-value].bh-pressing::before,
+body main.wrap .journey-choice .journey-card>button[data-value].bh-pressing::before,
+body main.wrap .lens-buttons .result-card>button[data-value].bh-pressing::before{
+ transform:translateY(5px);filter:brightness(.88);
+ box-shadow:inset 0 2px 3px #12121255,inset 0 -1px 1px #f9f9f944,0 0 0 1px #d1d5d0,0 0 0 2px #606b65,0 0 0 3px #d5d9d4,0 0 0 4px #303a34,0 0 0 5px #929b94,0 0 0 6px #19231d,0 1px 2px 6px #12121266;
+}
+body main.wrap .lens-buttons .result-card>button[data-value="carbon"].bh-pressing::before{
+ transform:translateY(6px);
+ box-shadow:inset 0 2px 2px #f58b71,inset 0 -2px 2px #7d1a16,0 1px 0 1px #8d1d17,0 2px 0 1px #621d17,0 3px 0 5px #edc92e,0 3px 0 9px #c6a21a,0 4px 0 10px #706022,0 5px 3px 8px #12121255;
+}
+body main.wrap .button-choices button[data-value].bh-latching::before,
+body main.wrap .journey-choice .journey-card>button[data-value].bh-latching::before,
+body main.wrap .lens-buttons .result-card>button[data-value].bh-latching::before{
+ animation:bh-control-latch 180ms cubic-bezier(.2,.7,.35,1) both;
+}
+@keyframes bh-control-latch{0%{transform:translateY(5px)}65%{transform:translateY(1px)}100%{transform:translateY(0)}}
+body main.wrap .button-choices button[data-value][aria-pressed="true"].bh-latching::before{animation-name:bh-control-latch-on}
+@keyframes bh-control-latch-on{0%{transform:translateY(5px)}65%{transform:translateY(2px)}100%{transform:translateY(1px)}}
+/* No texture or embossing on numeric output, graphs or long-form methodology. */
+@media(prefers-reduced-motion:reduce){
+ body main.wrap .button-choices button[data-value].bh-latching::before{animation:none}
+ body main.wrap .button-choices button[data-value].bh-pressing::before{transform:none}
+}
+@media(prefers-reduced-motion:reduce){
+ body main.wrap .button-choices button[data-value].bh-pressing::before,
+ body main.wrap .journey-choice .journey-card>button[data-value].bh-pressing::before,
+ body main.wrap .lens-buttons .result-card>button[data-value].bh-pressing::before{transform:none}
+ body main.wrap .button-choices button[data-value].bh-latching::before,
+ body main.wrap .journey-choice .journey-card>button[data-value].bh-latching::before,
+ body main.wrap .lens-buttons .result-card>button[data-value].bh-latching::before{animation:none}
+}

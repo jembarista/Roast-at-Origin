@@ -1,3 +1,14 @@
+## 29 October 2026 — Diffui engraved-metal variant
+
+- Added fine directional alloy grain and corner fixings on shared faceplates.
+- Deepened engraved label shading; added visible cap downstroke and return for pointer and keyboard activation.
+- Animation honours reduced motion and never delays calculator events.
+
+## 29 October 2026 — Diffui control materials
+
+- Added a scoped control stylesheet with machined retaining rings, translucent illuminated lenses, pressed travel and keyboard focus.
+- Preserved shared aluminium faceplates, the red mushroom cap and three reset arrows, and all calculator behaviour.
+
 # Working-copy changes — 21 October 2026
 
 The supplied Desktop package is preserved. This copy keeps the standalone HTML app and original factors.
@@ -76,3 +87,9 @@ Distinguished green-coffee freight sacks from finished retail/wholesale bags in 
 Shortened main copy; moved research controls and sources below results; added laptop preview. Roasting and result choices now slide continuously to the top in focused screens, with back controls and reduced-motion support. Updated header title and painted BH ship asset. Clarified final-retail versus green-shipping packaging; default GGET-style retail format is 300 g on both sides, destination choices exclude Bulk, and shorter Reefer/Retail bags labels are used. Main freight equations and research limitations are preserved.
 
 Validation: nine check suites pass, including quantity/packaging correctness, economic UI, result/roast transitions, city search, freight guidance and frozen-energy accounting. HTML structure and local asset references checked. Browser visual QA remains outstanding.
+
+## Selected journey leads carbon results — 29 October 2026
+
+The carbon headline now reports the user’s selected journey relative to the opposite roasting location with matched freight and final packaging. The selection, denominator and comparison basis are explicit. Charts, totals, breakdown, volumes, break-even and CSV reconcile with that basis. Saved settings for the other journey remain intact; exports include them separately. Greener-option comparisons use the corresponding matched basis.
+
+Validation includes the reported destination-air case (10.4% higher) and reverse origin-air case (9.4% lower), packaging matching without input mutation, zero denominator, frozen warnings, chart totals and CSV reconciliation.

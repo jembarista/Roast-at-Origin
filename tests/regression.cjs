@@ -6,7 +6,7 @@ for(const m of html.matchAll(/<(input|select|[a-z0-9]+)\b([^>]*\bid="([^"]+)"[^>
  const attrs=m[2],get=k=>(attrs.match(new RegExp('\\b'+k+'="([^"]*)"'))||[])[1]||'';
  const node={id:m[3],type:get('type'),value:get('value'),min:get('min'),max:get('max'),checked:/\bchecked\b/.test(attrs),disabled:false,textContent:'',style:{},classList:{toggle(){}},addEventListener(){},appendChild(){},setAttribute(){},click(){}};
  let storedValue=String(node.value);Object.defineProperty(node,'value',{get(){return storedValue},set(v){storedValue=String(v)}});
- let inner='';Object.defineProperty(node,'innerHTML',{get(){return inner},set(v){inner=v;if(m[1]==='select'){node.options=[...v.matchAll(/<option value="([^"]+)"/g)].map(x=>x[1]);node.value=node.options[0]||'';}}});
+ let inner='';Object.defineProperty(node,'innerHTML',{get(){return inner},set(v){inner=v;if(m[1]==='select'){node.options=[...v.matchAll(/<option value="([^"]*)"/g)].map(x=>x[1]);node.value=node.options[0]||'';}}});
  Object.defineProperty(node,'selectedIndex',{set(i){node.value=node.options[i]}});
  if(m[1]==='select')node.innerHTML=html.slice(m.index+m[0].length).split('</select>')[0];
  nodes.set(node.id,node);
@@ -22,7 +22,7 @@ test('origin package changes freight volume',()=>{set('originPack','retail1');co
 test('mass scaling and break-even identity',()=>{run("preset('same')");const before=run("pathway('origin')");set('mass',2000);const after=run("pathway('origin')");close(after.total,2*before.total);const a=run("pathway('trad')");set('originRoast',(a.total-(after.total-after.roasting))/2000);close(run("pathway('origin').total"),a.total)});
 test('invalid input clears results and prevents stale CSV',()=>{set('teuVolume',0);run('update()');assert.equal(context.window.last,null);assert.equal(nodes.get('csv').disabled,true);assert.equal(nodes.get('tradTotal').textContent,'—');set('teuVolume',28);set('mass','');run('update()');assert.equal(context.window.last,null)});
 test('negative, excessive loss and infinite inputs are rejected',()=>{set('mass',1000);for(const [id,value,reset] of [['loss',101,15],['airFactor',-1,.6],['mass','1e309',1000]]){set(id,value);run('update()');assert.equal(context.window.last,null);set(id,reset)}});
-test('zero baseline comparison stays finite',()=>{for(const id of ['dry','reef','roadFactor','packFactor','tradRoast'])set(id,0);set('originRoast',.42);run('update()');assert.ok(!/Infinity|NaN/.test(nodes.get('comparison').textContent));assert.match(nodes.get('comparison').textContent,/traditional total is zero/)});
+test('zero baseline comparison stays finite',()=>{for(const id of ['dry','reef','roadFactor','packFactor','tradRoast'])set(id,0);set('originRoast',.42);run('update()');assert.ok(!/Infinity|NaN/.test(nodes.get('comparison').textContent));assert.match(nodes.get('comparison').textContent,/comparison total is zero/)});
 test('frozen baseline warning persists',()=>{run("preset('reefer')");assert.match(nodes.get('status').textContent,/frozen-specific electricity is unknown/)});
 test('CSV captures inputs, units and method caveats',()=>{run("el('csv').onclick()");const source=html.slice(html.indexOf("el('csv').onclick="));for(const label of ['international mode','freight allocation unit','factor scope','air allocation caveat','input: ','frozen caveat'])assert.ok(source.includes(label))});
 test('map paths keep endpoints and wrap across the Pacific',()=>{
